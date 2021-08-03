@@ -6,6 +6,7 @@ import Home from '../pages/Home.vue'
 import Post from '../pages/Post.vue'
 import Login from '../pages/Login.vue'
 import Posts from '../pages/admin/Posts.vue'
+import Edit from '../pages/admin/Edit.vue'
 
 const routes = [
     {
@@ -23,9 +24,22 @@ const routes = [
         name: 'admin.posts',
         component: Posts,
         beforeEnter: (to, from, next) => {
-            if (!store.getters.authenticated) {
-                return next({ name: 'admin.login'})
-            }
+            // if (!store.getters.authenticated) {
+            //     return next({ name: 'admin.login'})
+            // }
+
+            return next()
+        }
+    },
+    {
+        path: '/admin/posts/:slug/edit',
+        name: 'admin.posts.edit',
+        component: Edit,
+        props: true,
+        beforeEnter: (to, from, next) => {
+            // if (!store.getters.authenticated) {
+            //     return next({ name: 'admin.login'})
+            // }
 
             return next()
         }

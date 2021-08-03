@@ -8,5 +8,5 @@ import store from './store'
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
 
-store.dispatch('authenticate')
+await store.dispatch('authenticate')
 createApp(App).use(router).use(store).mount('#app')

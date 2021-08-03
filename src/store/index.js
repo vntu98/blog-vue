@@ -21,11 +21,11 @@ export default createStore({
 
     mutations: {
         SET_AUTHENTICATED(state, authenticated) {
-            this.authenticated = authenticated
+            state.authenticated = authenticated
         },
 
         SET_USER(state, user) {
-            this.user = user
+            state.user = user
         }
     },
 
