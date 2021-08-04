@@ -18,7 +18,7 @@
                     </p>
 
                     <div>
-                        <router-link :to="{ name: 'admin.posts.edit', params: { slug: post.slug } }" class="text-sm font-medium">Edit</router-link>
+                        <router-link :to="{ name: 'admin.posts.edit', params: { uuid: post.uuid } }" class="text-sm font-medium">Edit</router-link>
                     </div>
                     <div>
                         <button class="text-sm font-medium">Delete</button>
@@ -42,7 +42,7 @@ export default {
         const newPost = async () => {
             let post = await createPost()
 
-            router.replace({ name: 'admin.posts.edit', params: { slug: post.slug } })
+            router.push({ name: 'admin.posts.edit', params: { uuid: post.uuid } })
         }
 
         onMounted(fetchPosts())
