@@ -21,6 +21,8 @@
                 </template>
             </resize-textarea>
         </div>
+
+        <Editor v-model:modelValue="post.body" v-model:teaserValue="post.teaser" class="mt-16" />
     </div>
 </template>
 
@@ -29,10 +31,11 @@ import useAdminPosts from '../../api/useAdminPosts'
 import { onMounted, watch, watchEffect } from 'vue'
 import _ from 'lodash'
 import ResizeTextarea from '../../components/ResizeTextarea.vue'
+import Editor from '../../components/Editor.vue'
 import slugify from 'slugify'
 
 export default {
-    components: { ResizeTextarea },
+    components: { ResizeTextarea, Editor },
 
     props: {
         uuid: {
