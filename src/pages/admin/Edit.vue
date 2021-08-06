@@ -5,9 +5,13 @@
                 <span class="mr-1">/</span> <input type="text" class="p-0 border-none focus:ring-0 w-full" v-model="post.slug" spellcheck="false" @click="$event.target.select()">
             </div>
             <div class="flex items-center space-x-6">
-                <div>
-                    <span class="text-sm text-gray-500">Autosaved</span>
-                </div>
+
+                <RelativeTime :date="lastSaved" v-if="lastSaved">
+                    <template v-slot:default="{ fromNow }">
+                        <span class="text-sm text-gray-500">{{ fromNow }}</span>
+                    </template>
+                </RelativeTime>
+
                 <button @click="post.published = !post.published" class="text-sm font-medium" v-bind:class="{ 'text-pink-500': post.published }">
                     {{ !post.published ? 'Published' : 'Unpublished' }}
                 </button>
@@ -28,14 +32,20 @@
 
 <script>
 import useAdminPosts from '../../api/useAdminPosts'
-import { onMounted, watch, watchEffect } from 'vue'
+import { onMounted, ref, watch, watchEffect } from 'vue'
 import _ from 'lodash'
 import ResizeTextarea from '../../components/ResizeTextarea.vue'
 import Editor from '../../components/Editor.vue'
 import slugify from 'slugify'
+import RelativeTime from '../../components/RelativeTime.vue'
+import dayjs from 'dayjs'
 
 export default {
-    components: { ResizeTextarea, Editor },
+    components: {
+        ResizeTextarea,
+        Editor,
+        RelativeTime
+    },
 
     props: {
         uuid: {
@@ -47,8 +57,12 @@ export default {
     setup(props) {
         const { post, fetchPost, patchPost } = useAdminPosts()
 
+        const lastSaved = ref(null)
+
         const updatePost = async () => {
             await patchPost(props.uuid)
+
+            lastSaved.value = dayjs()
         }
 
         const replaceSlug = () => {
@@ -74,7 +88,8 @@ export default {
         })
 
         return {
-            post
+            post,
+            lastSaved
         }
     },
 }
